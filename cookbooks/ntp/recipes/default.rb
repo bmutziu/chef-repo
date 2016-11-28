@@ -114,7 +114,7 @@ execute 'Force sync hardware clock with system clock' do
   only_if { node['ntp']['sync_hw_clock'] && !(platform_family?('windows') || platform_family?('freebsd')) }
 end
 
-#Chef::Application.fatal!('Ouch!!! Bailing out!!!')
+Chef::Application.fatal!('Ouch!!! Bailing out!!!')
 
 Chef::Log.info('*** Going to install the ntp service now ...')
 
