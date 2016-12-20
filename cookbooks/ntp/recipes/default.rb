@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: ntp
+# Cookbook:: ntp
 # Recipe:: default
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Tim Smith (<tsmith@chef.io>)
 #
-# Copyright 2009-2016, Chef Software, Inc.
+# Copyright:: 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,13 @@
 
 ::Chef::Resource.send(:include, Opscode::Ntp::Helper)
 
-if platform_family?('windows')
+case node['platform_family']
+when 'windows'
   include_recipe 'ntp::windows_client'
+when 'mac_os_x'
+  include_recipe 'ntp::mac_os_x_client'
+  # On OS X we only support simple client config and nothing more
+  return 0
 else
 
   node['ntp']['packages'].each do |ntppkg|
@@ -57,7 +62,7 @@ if node['ntp']['servers'].empty?
     '0.pool.ntp.org',
     '1.pool.ntp.org',
     '2.pool.ntp.org',
-    '3.pool.ntp.org'
+    '3.pool.ntp.org',
   ]
   Chef::Log.debug 'No NTP servers specified, using default ntp.org server pools'
 end
@@ -114,10 +119,6 @@ execute 'Force sync hardware clock with system clock' do
   only_if { node['ntp']['sync_hw_clock'] && !(platform_family?('windows') || platform_family?('freebsd')) }
 end
 
-# Chef::Application.fatal!('Ouch!!! Bailing out!!!')
-
-Chef::Log.info('*** Going to install the ntp service now ...')
-
 service node['ntp']['service'] do
   supports status: true, restart: true
   action [:enable, :start]
@@ -125,5 +126,3 @@ service node['ntp']['service'] do
   retries 3
   retry_delay 5
 end
-
-Chef::Log.info('*** ntp service installed and started successfully!')
