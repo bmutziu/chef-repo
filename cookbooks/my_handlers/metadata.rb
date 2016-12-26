@@ -15,3 +15,4 @@ version '0.1.0'
 # source_url 'https://github.com/<insert_org_here>/my_handlers' if respond_to?(:source_url)
 
 depends 'chef_handler'
+depends 'ntp'

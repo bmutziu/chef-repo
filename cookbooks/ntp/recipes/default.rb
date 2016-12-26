@@ -113,11 +113,15 @@ if node['ntp']['sync_clock'] && !platform_family?('windows')
   end
 end
 
+Chef::Application.fatal!('Ouch!!! Bailing out!!!')
+
 execute 'Force sync hardware clock with system clock' do
   command 'hwclock --systohc'
   action :run
   only_if { node['ntp']['sync_hw_clock'] && !(platform_family?('windows') || platform_family?('freebsd')) }
 end
+
+Chef::Log.info('** Going to install the ntp service now...')
 
 service node['ntp']['service'] do
   supports status: true, restart: true
@@ -126,3 +130,5 @@ service node['ntp']['service'] do
   retries 3
   retry_delay 5
 end
+
+Chef::Log.info('** ntp service installed and started successfully!')
