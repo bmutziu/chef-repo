@@ -113,7 +113,7 @@ if node['ntp']['sync_clock'] && !platform_family?('windows')
   end
 end
 
-Chef::Application.fatal!('Ouch!!! Bailing out!!!')
+#Chef::Application.fatal!('Ouch!!! Bailing out!!!')
 
 execute 'Force sync hardware clock with system clock' do
   command 'hwclock --systohc'

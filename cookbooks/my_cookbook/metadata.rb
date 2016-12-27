@@ -20,3 +20,4 @@ depends 'apache2', '>= 1.0.4'
 depends "chef-client"
 depends "apt"
 depends "ntp"
+depends "chef_nginx"

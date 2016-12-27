@@ -36,6 +36,7 @@ GRAPH
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
     chef-client (>= 0.0.0)
+    chef_nginx (>= 0.0.0)
     ntp (>= 0.0.0)
   ntp (3.2.0)
   ohai (4.2.3)

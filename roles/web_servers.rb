@@ -1,5 +1,6 @@
 name "web_servers"
 description "This role contains nodes, which act as web servers"
+
 run_list "recipe[ntp]"
 default_attributes 'ntp' => {
   'ntpdate' => {
@@ -7,8 +8,8 @@ default_attributes 'ntp' => {
   }
 }
 
-run_list "recipe[chef_nginx::source]"
-       default_attributes "nginx" => {
+run_list "recipe[chef_nginx::source]","recipe[my_cookbook]"
+default_attributes "nginx" => {
          "version" => "1.10.2",
          "init_style" => "init",
          "enable_default_site" => false,
